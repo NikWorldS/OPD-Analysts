@@ -1,6 +1,6 @@
 import google.generativeai as genai
 
-genai.configure(api_key="AIzaSyDsP3eIyJBkpsevwTgi6VkVK7RoeE64SEw")
+genai.configure(api_key="AI_API_KEY_HERE")
 
 generation_config = {
   "temperature": 1,
@@ -11,7 +11,7 @@ generation_config = {
 }
 
 model = genai.GenerativeModel(
-    model_name="tunedModels/custom_laptop_advisor_v1",
+    model_name="tunedModels/custom-laptop-advisor-v3",
     generation_config=generation_config,
     )
 

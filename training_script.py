@@ -2,18 +2,18 @@ import google.generativeai as genai
 import json
 import os
 
-genai.configure(api_key="AIzaSyDsP3eIyJBkpsevwTgi6VkVK7RoeE64SEw")
+genai.configure(api_key="AI_API_KEY_HERE")
 
-SOURCE_MODEL = "gemini-1.5-flash"
-TUNED_MODEL_ID = "custom_laptop_advisor_v1"
+SOURCE_MODEL = "models/gemini-1.5-flash-001-tuning"
+TUNED_MODEL_ID = "custom-laptop-advisor-v3"
 DISPLAY_NAME = "Custom Laptop Advisor"
 DESCRIPTION = "A model fine-tuned for providing PC and laptop recommendations."
-TRAINING_DATA_PATH = "training_datas\\.jsonl"
+TRAINING_DATA_PATH = "training_datas\\first_training_data.jsonl"
 
 if not os.path.exists(TRAINING_DATA_PATH):
     raise FileNotFoundError(f"Training data file not found at {TRAINING_DATA_PATH}")
 
-with open(TRAINING_DATA_PATH, "r") as file:
+with open(TRAINING_DATA_PATH, "r", encoding='utf-8') as file:
     training_data = [json.loads(line.strip()) for line in file]
 
 HYPERPARAMETERS = {

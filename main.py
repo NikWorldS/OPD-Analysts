@@ -9,7 +9,7 @@ from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
 import ai_model
 
-API_TOKEN = '7911900370:AAH8I5skyucy8wXUXPYLB4x3tNsgl0CJxiE'
+API_TOKEN = 'TG_API_KEY_HERE'
 
 logging.basicConfig(level=logging.INFO)
 
@@ -29,23 +29,23 @@ async def process_select_laptop(message: types.Message):
         "Вы выбрали режим подбора ноутбука. Напишите ваши требования к ноутбуку и я соберу вам подборку подходящих для вас ноутбуков.")
 
 
-def beautify_message(ai_response):
-    if (ai_response.startswith("```json")):
-        ai_response = ai_response.replace("```json", "")
-        ai_response = ai_response.replace("```", "")
-    ai_response = json.loads(ai_response)
-    items_size = len(ai_response["items"])
-    if (items_size) == 0:
-        return ai_response["description"]
-
-    return_message = f"{ai_response["description"]} \n\n"
-
-    for i in range(items_size):
-        name = ai_response["items"][i]["name"]
-        description = ai_response["items"][i]["description"]
-        price = ai_response["items"][i]["price"]
-        return_message += f"{i + 1}. {name} - {description} - {price}\n"
-    return return_message
+# def beautify_message(ai_response):
+#     if (ai_response.startswith("```json")):
+#         ai_response = ai_response.replace("```json", "")
+#         ai_response = ai_response.replace("```", "")
+#     ai_response = json.loads(ai_response)
+#     items_size = len(ai_response["items"])
+#     if (items_size) == 0:
+#         return ai_response["description"]
+#
+#     return_message = f"{ai_response["description"]} \n\n"
+#
+#     for i in range(items_size):
+#         name = ai_response["items"][i]["name"]
+#         description = ai_response["items"][i]["description"]
+#         price = ai_response["items"][i]["price"]
+#         return_message += f"{i + 1}. {name} - {description} - {price}\n"
+#     return return_message
 
 
 def main_kb(user_telegram_id: int):
@@ -74,8 +74,9 @@ async def handle_message(message: types.Message):
         user_choices[user_id] = "select-laptop"
         await process_select_laptop(message)
     elif user_id in user_choices:
-        ai_response = ai_model.get_response(user_choices[user_id], message.text)
-        await message.reply(beautify_message(ai_response))
+        ai_response = ai_model.get_response(message.text)
+        print("Ответ от модели:", ai_response)
+        await message.reply(ai_response)
 
 
 async def main():
