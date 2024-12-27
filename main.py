@@ -75,7 +75,6 @@ async def handle_message(message: types.Message):
         await process_select_laptop(message)
     elif user_id in user_choices:
         ai_response = ai_model.get_response(message.text)
-        print("Ответ от модели:", ai_response)
         await message.reply(ai_response)
 
 
