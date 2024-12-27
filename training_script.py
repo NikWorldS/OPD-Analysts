@@ -8,7 +8,7 @@ SOURCE_MODEL = "gemini-1.5-flash"
 TUNED_MODEL_ID = "custom_laptop_advisor_v1"
 DISPLAY_NAME = "Custom Laptop Advisor"
 DESCRIPTION = "A model fine-tuned for providing PC and laptop recommendations."
-TRAINING_DATA_PATH = "training_data.jsonl"
+TRAINING_DATA_PATH = "training_datas\\.jsonl"
 
 if not os.path.exists(TRAINING_DATA_PATH):
     raise FileNotFoundError(f"Training data file not found at {TRAINING_DATA_PATH}")
@@ -33,7 +33,7 @@ try:
         epoch_count=HYPERPARAMETERS["epoch_count"],
         batch_size=HYPERPARAMETERS["batch_size"],
         learning_rate=HYPERPARAMETERS["learning_rate"],
-        input_key="text_input",  # Входные данные в JSONL
+        input_key="input",  # Входные данные в JSONL
         output_key="output"  # Выходные данные в JSONL
     )
     print(f"Fine-tuning job created with operation ID: {operation.operation.name}")

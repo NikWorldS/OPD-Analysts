@@ -1,7 +1,6 @@
-
 import asyncio
 import logging
-import json 
+import json
 
 from aiogram import Bot, Dispatcher, types, F
 from aiogram.filters.command import Command
@@ -15,33 +14,39 @@ API_TOKEN = '7911900370:AAH8I5skyucy8wXUXPYLB4x3tNsgl0CJxiE'
 logging.basicConfig(level=logging.INFO)
 
 bot = Bot(token=API_TOKEN)
-dp = Dispatcher() 
+dp = Dispatcher()
 
 user_choices = {}
 
+
 async def process_pc_build(message: types.Message):
-    await message.reply("Вы выбрали режим сборки ПК. Напишите ваши требования к ПК (повседневные задачи) и я соберу вам все необходимые комплекутющие.")
+    await message.reply(
+        "Вы выбрали режим сборки ПК. Напишите ваши требования к ПК (повседневные задачи) и я соберу вам все необходимые комплектующие.")
+
 
 async def process_select_laptop(message: types.Message):
-    await message.reply("Вы выбрали режим подбора ноутбука. Напишите ваши требования к ноутбуку и я соберу вам подборку подходящих для вас ноутбуков.")
+    await message.reply(
+        "Вы выбрали режим подбора ноутбука. Напишите ваши требования к ноутбуку и я соберу вам подборку подходящих для вас ноутбуков.")
+
 
 def beautify_message(ai_response):
-    if(ai_response.startswith("```json")):
+    if (ai_response.startswith("```json")):
         ai_response = ai_response.replace("```json", "")
         ai_response = ai_response.replace("```", "")
     ai_response = json.loads(ai_response)
     items_size = len(ai_response["items"])
     if (items_size) == 0:
         return ai_response["description"]
-    
+
     return_message = f"{ai_response["description"]} \n\n"
-    
+
     for i in range(items_size):
         name = ai_response["items"][i]["name"]
         description = ai_response["items"][i]["description"]
         price = ai_response["items"][i]["price"]
-        return_message += f"{i+1}. {name} - {description} - {price}\n"
+        return_message += f"{i + 1}. {name} - {description} - {price}\n"
     return return_message
+
 
 def main_kb(user_telegram_id: int):
     kb_list = [
@@ -52,7 +57,7 @@ def main_kb(user_telegram_id: int):
     return keyboard
 
 
-@dp.message(F.text == 'start')  
+@dp.message(F.text == 'start')
 async def cmd_start(message):
     await message.answer('Запуск сообщения по команде /start используя фильтр CommandStart()',
                          reply_markup=main_kb(message.from_user.id))
@@ -75,6 +80,7 @@ async def handle_message(message: types.Message):
 
 async def main():
     await dp.start_polling(bot)
+
 
 if __name__ == '__main__':
     asyncio.run(main())
